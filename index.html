@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>ATHENA Beta</title>
+
+<style>
+body {
+    font-family: Georgia, serif;
+    background: #f4f1ea;
+    margin: 0;
+    padding: 30px;
+}
+
+#container {
+    max-width: 900px;
+    margin: auto;
+}
+
+h1 {
+    text-align: center;
+    font-weight: normal;
+}
+
+input {
+    width: 75%;
+    padding: 12px;
+    font-size: 16px;
+}
+
+button {
+    padding: 12px;
+    background: #6d533b;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.paper {
+    background: white;
+    padding: 24px;
+    margin-top: 20px;
+    border-radius: 6px;
+    white-space: pre-wrap;
+    line-height: 1.6;
+}
+
+.refs {
+    background: #f7f4ee;
+    padding: 15px;
+    margin-top: 15px;
+    border-radius: 6px;
+    font-size: 13px;
+}
+</style>
+</head>
+
+<body>
+
+<div id="container">
+
+<h1>ATHENA Beta</h1>
+
+<input id="input" placeholder="Ask archaeology question...">
+<button onclick="send()">Ask</button>
+
+<div id="output"></div>
+
+</div>
+
+<script>
+
+async function send() {
+
+    const input = document.getElementById("input");
+    const output = document.getElementById("output");
+
+    const message = input.value;
+    if (!message) return;
+
+    output.innerHTML = "<div class='paper'>Thinking...</div>";
+
+    try {
+
+        const res = await fetch("/chat", {
+            method: "POST",
+            headers: {"Content-Type":"application/json"},
+            body: JSON.stringify({message})
+        });
+
+        const data = await res.json();
+
+        output.innerHTML = `
+            <div class="paper">
+                ${data.reply ? data.reply.replace(/\\n/g, "<br>") : "No reply"}
+            </div>
+
+            ${data.references ? `
+            <div class="refs">
+                <b>References</b><br>
+                ${data.references.replace(/\\n/g, "<br>")}
+            </div>
+            ` : ""}
+        `;
+
+    } catch (e) {
+        output.innerHTML = "<div class='paper'>Network error</div>";
+    }
+}
+
+</script>
+
+</body>
+</html>
