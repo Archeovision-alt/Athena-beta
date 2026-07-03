@@ -119,6 +119,10 @@ def home():
 def debug():
     return "ATHENA VERSION 1.0.7 TEST OK"
 
+@app.route("/version")
+def version():
+    return "ATHENA VERSION e3d8141 OK"
+
 # -----------------------
 # CHAT ENDPOINT
 # -----------------------
