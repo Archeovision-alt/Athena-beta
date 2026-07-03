@@ -1,114 +1,136 @@
-<h1>HTML VERSION 12345</h1>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>ATHENA test</title>
+    <meta charset="UTF-8">
+    <title>ATHENA</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #0f1115;
+            color: #e6e6e6;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
 
-<style>
-body {
-    font-family: Georgia, serif;
-    background: #f4f1ea;
-    margin: 0;
-    padding: 30px;
-}
+        header {
+            padding: 20px;
+            text-align: center;
+            font-size: 20px;
+            font-weight: bold;
+            letter-spacing: 2px;
+            border-bottom: 1px solid #222;
+        }
 
-#container {
-    max-width: 900px;
-    margin: auto;
-}
+        .subtitle {
+            font-size: 12px;
+            opacity: 0.7;
+            margin-top: 5px;
+        }
 
-h1 {
-    text-align: center;
-    font-weight: normal;
-}
+        #chat {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+        }
 
-input {
-    width: 75%;
-    padding: 12px;
-    font-size: 16px;
-}
+        .msg {
+            margin-bottom: 12px;
+            line-height: 1.4;
+        }
 
-button {
-    padding: 12px;
-    background: #6d533b;
-    color: white;
-    border: none;
-    cursor: pointer;
-}
+        .user {
+            color: #7cc7ff;
+        }
 
-.paper {
-    background: white;
-    padding: 24px;
-    margin-top: 20px;
-    border-radius: 6px;
-    white-space: pre-wrap;
-    line-height: 1.6;
-}
+        .athena {
+            color: #9cffb1;
+        }
 
-.refs {
-    background: #f7f4ee;
-    padding: 15px;
-    margin-top: 15px;
-    border-radius: 6px;
-    font-size: 13px;
-}
-</style>
+        .input-box {
+            display: flex;
+            border-top: 1px solid #222;
+            padding: 10px;
+        }
+
+        input {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            outline: none;
+            background: #1a1d24;
+            color: white;
+            border-radius: 6px;
+        }
+
+        button {
+            margin-left: 10px;
+            padding: 12px 16px;
+            background: #2b6cff;
+            border: none;
+            color: white;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #1f55cc;
+        }
+
+        footer {
+            text-align: center;
+            font-size: 11px;
+            padding: 8px;
+            opacity: 0.6;
+            border-top: 1px solid #222;
+        }
+    </style>
 </head>
 
 <body>
 
-<div id="container">
+<header>
+    ATHENA
+    <div class="subtitle">
+        Archaeological Research & Heritage Expert Network Assistant
+    </div>
+</header>
 
-<h1>ATHENA Beta</h1>
+<div id="chat"></div>
 
-<input id="input" placeholder="Ask archaeology question...">
-<button onclick="send()">Ask</button>
-
-<div id="output"></div>
-
+<div class="input-box">
+    <input id="msg" placeholder="Ask Athena..." />
+    <button onclick="send()">Ask</button>
 </div>
 
+<footer>
+    Powered by OpenAI & Archeo.news
+</footer>
+
 <script>
-
 async function send() {
+    const input = document.getElementById("msg");
+    const text = input.value;
+    if (!text) return;
 
-    const input = document.getElementById("input");
-    const output = document.getElementById("output");
+    const chat = document.getElementById("chat");
 
-    const message = input.value;
-    if (!message) return;
+    chat.innerHTML += `<div class="msg user">You: ${text}</div>`;
 
-    output.innerHTML = "<div class='paper'>Thinking...</div>";
+    input.value = "";
 
-    try {
+    const res = await fetch("/chat", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({message: text})
+    });
 
-        const res = await fetch("/chat", {
-            method: "POST",
-            headers: {"Content-Type":"application/json"},
-            body: JSON.stringify({message})
-        });
+    const data = await res.json();
 
-        const data = await res.json();
-
-        output.innerHTML = `
-            <div class="paper">
-                ${data.reply ? data.reply.replace(/\\n/g, "<br>") : "No reply"}
-            </div>
-
-            ${data.references ? `
-            <div class="refs">
-                <b>References</b><br>
-                ${data.references.replace(/\\n/g, "<br>")}
-            </div>
-            ` : ""}
-        `;
-
-    } catch (e) {
-        output.innerHTML = "<div class='paper'>Network error</div>";
-    }
+    chat.innerHTML += `<div class="msg athena">ATHENA: ${data.reply}</div>`;
+    chat.scrollTop = chat.scrollHeight;
 }
-
 </script>
 
 </body>
