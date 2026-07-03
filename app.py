@@ -115,7 +115,9 @@ def format_refs(nodes, fallback):
 @app.route("/")
 def home():
     return send_from_directory(".", "index.html")
-
+@app.route("/debug")
+def debug():
+    return "ATHENA VERSION 1.0.7 TEST OK"
 
 # -----------------------
 # CHAT ENDPOINT
