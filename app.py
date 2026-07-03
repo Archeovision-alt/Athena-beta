@@ -137,6 +137,26 @@ def chat():
 
         if not message:
             return jsonify({"reply": "Empty message", "references": ""})
+ @app.route("/news", methods=["GET"])
+def news():
+
+    query = request.args.get("q", "")
+
+    if not query:
+        return jsonify({"articles": []})
+
+    nodes = search_openalex(query)
+
+    articles = []
+
+    for n in nodes:
+        articles.append({
+            "title": n["title"],
+            "year": n["year"],
+            "url": n["url"]
+        })
+
+    return jsonify({"articles": articles})           
 
         # -----------------------
         # SIMPLE RATE LIMIT (global)
