@@ -15,17 +15,17 @@ body {
 .container {
     max-width: 850px;
     margin: auto;
-    padding: 50px 20px;
+    padding: 60px 20px;
 }
 
 h1 {
     font-weight: 500;
-    letter-spacing: 1px;
+    margin-bottom: 5px;
 }
 
 .sub {
     color: #666;
-    margin-bottom: 25px;
+    margin-bottom: 30px;
 }
 
 input {
@@ -51,16 +51,21 @@ button:hover {
 }
 
 #response {
-    margin-top: 25px;
+    margin-top: 30px;
     white-space: pre-line;
     line-height: 1.6;
 }
 
 .section-title {
-    margin-top: 50px;
+    margin-top: 60px;
     font-size: 12px;
-    letter-spacing: 2px;
     color: #888;
+    letter-spacing: 2px;
+}
+
+.news-item {
+    padding: 10px 0;
+    border-bottom: 1px solid #eee;
 }
 </style>
 </head>
@@ -95,13 +100,25 @@ async function ask() {
 
     const data = await res.json();
 
-    document.getElementById("response").innerText =
-        data.reply + "\n\nREFERENCES:\n" + data.references;
+    document.getElementById("response").innerText = data.reply;
 }
 
 async function loadNews() {
-    document.getElementById("news").innerText =
-        "ArcheoNews initializing... (seed needed)";
+    const res = await fetch("/news");
+    const data = await res.json();
+
+    let html = "";
+
+    data.forEach(n => {
+        html += `
+        <div class="news-item">
+            <b>${n.title}</b><br>
+            <small>${n.year}</small><br>
+            <a href="${n.url}" target="_blank">${n.url}</a>
+        </div>`;
+    });
+
+    document.getElementById("news").innerHTML = html;
 }
 
 loadNews();
