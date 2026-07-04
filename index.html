@@ -8,64 +8,59 @@
 body {
     margin: 0;
     font-family: Arial, sans-serif;
-    background: #0f1115;
-    color: #e6e6e6;
+    background: #ffffff;
+    color: #111;
 }
 
 .container {
-    max-width: 900px;
+    max-width: 850px;
     margin: auto;
-    padding: 40px 20px;
+    padding: 50px 20px;
 }
 
 h1 {
-    font-weight: 400;
-    letter-spacing: 2px;
+    font-weight: 500;
+    letter-spacing: 1px;
 }
 
 .sub {
-    color: #888;
-    margin-bottom: 30px;
+    color: #666;
+    margin-bottom: 25px;
 }
 
 input {
     width: 100%;
     padding: 14px;
-    border-radius: 6px;
-    border: none;
-    outline: none;
     font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
     margin-bottom: 10px;
-    background: #1a1d24;
-    color: white;
 }
 
 button {
-    padding: 12px 20px;
+    padding: 12px 18px;
     border: none;
-    background: #3b82f6;
+    background: #111;
     color: white;
     border-radius: 6px;
     cursor: pointer;
 }
 
 button:hover {
-    background: #2563eb;
+    background: #333;
 }
 
-.card {
-    margin-top: 20px;
-    padding: 15px;
-    background: #161922;
-    border-radius: 8px;
+#response {
+    margin-top: 25px;
     white-space: pre-line;
+    line-height: 1.6;
 }
 
 .section-title {
-    margin-top: 40px;
-    font-size: 13px;
-    color: #888;
+    margin-top: 50px;
+    font-size: 12px;
     letter-spacing: 2px;
+    color: #888;
 }
 </style>
 </head>
@@ -77,13 +72,13 @@ button:hover {
     <h1>ATHENA</h1>
     <div class="sub">Archaeological Research Assistant</div>
 
-    <input id="input" placeholder="Ask anything about archaeology...">
-    <button onclick="ask()">ASK</button>
+    <input id="input" placeholder="Ask anything...">
+    <button onclick="ask()">ASK ANYTHING</button>
 
-    <div id="response" class="card"></div>
+    <div id="response"></div>
 
     <div class="section-title">ARCHEO NEWS</div>
-    <div id="news" class="card">Loading ArcheoNews...</div>
+    <div id="news">Loading...</div>
 
 </div>
 
@@ -105,16 +100,8 @@ async function ask() {
 }
 
 async function loadNews() {
-    try {
-        const res = await fetch("https://api.allorigins.win/raw?url=https://www.archaeology.org/news");
-        const text = await res.text();
-
-        document.getElementById("news").innerText =
-            "ArcheoNews feed loaded.\n\n(Next: structured timeline + filters)";
-    } catch (e) {
-        document.getElementById("news").innerText =
-            "ArcheoNews temporarily unavailable";
-    }
+    document.getElementById("news").innerText =
+        "ArcheoNews initializing... (seed needed)";
 }
 
 loadNews();
