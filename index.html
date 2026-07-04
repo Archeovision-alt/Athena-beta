@@ -10,62 +10,78 @@ body {
     font-family: Arial, sans-serif;
     background: #ffffff;
     color: #111;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
+/* CENTER LAYOUT */
 .container {
-    max-width: 850px;
-    margin: auto;
-    padding: 60px 20px;
+    width: 100%;
+    max-width: 700px;
+    text-align: center;
+    padding: 20px;
 }
 
 h1 {
-    font-weight: 500;
+    font-weight: 400;
     margin-bottom: 5px;
+    letter-spacing: 2px;
 }
 
 .sub {
     color: #666;
     margin-bottom: 30px;
+    font-size: 14px;
 }
 
+/* INPUT */
 input {
     width: 100%;
     padding: 14px;
     font-size: 16px;
     border: 1px solid #ddd;
     border-radius: 6px;
-    margin-bottom: 10px;
+    margin-bottom: 12px;
+    outline: none;
 }
 
+input:focus {
+    border-color: #5c839a;
+}
+
+/* BUTTON BLUE */
 button {
-    padding: 12px 18px;
+    width: 100%;
+    padding: 14px;
     border: none;
-    background: #111;
+    background: #5c839a;
     color: white;
+    font-size: 14px;
+    letter-spacing: 1px;
     border-radius: 6px;
     cursor: pointer;
+    transition: 0.2s ease;
 }
 
 button:hover {
-    background: #333;
+    background: #4f7388;
 }
 
+/* RESPONSE */
 #response {
-    margin-top: 30px;
+    margin-top: 25px;
+    text-align: left;
     white-space: pre-line;
     line-height: 1.6;
+    font-size: 14px;
+    color: #222;
 }
 
-.section-title {
-    margin-top: 60px;
-    font-size: 12px;
-    color: #888;
-    letter-spacing: 2px;
-}
-
-.news-item {
-    padding: 10px 0;
-    border-bottom: 1px solid #eee;
+/* NEWS */
+#news {
+    display: none; /* invisible pour l'instant comme demandé */
 }
 </style>
 </head>
@@ -82,8 +98,7 @@ button:hover {
 
     <div id="response"></div>
 
-    <div class="section-title">ARCHEO NEWS</div>
-    <div id="news">Loading...</div>
+    <div id="news"></div>
 
 </div>
 
@@ -100,28 +115,9 @@ async function ask() {
 
     const data = await res.json();
 
+    // REFERENCES INVISIBLES (comme demandé)
     document.getElementById("response").innerText = data.reply;
 }
-
-async function loadNews() {
-    const res = await fetch("/news");
-    const data = await res.json();
-
-    let html = "";
-
-    data.forEach(n => {
-        html += `
-        <div class="news-item">
-            <b>${n.title}</b><br>
-            <small>${n.year}</small><br>
-            <a href="${n.url}" target="_blank">${n.url}</a>
-        </div>`;
-    });
-
-    document.getElementById("news").innerHTML = html;
-}
-
-loadNews();
 
 </script>
 
