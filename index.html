@@ -63,9 +63,9 @@ button:hover {
 
 .section-title {
     margin-top: 40px;
-    font-size: 14px;
+    font-size: 13px;
     color: #888;
-    letter-spacing: 1px;
+    letter-spacing: 2px;
 }
 </style>
 </head>
@@ -77,15 +77,13 @@ button:hover {
     <h1>ATHENA</h1>
     <div class="sub">Archaeological Research Assistant</div>
 
-    <input id="input" placeholder="Ask a question about archaeology...">
+    <input id="input" placeholder="Ask anything about archaeology...">
     <button onclick="ask()">ASK</button>
 
     <div id="response" class="card"></div>
 
     <div class="section-title">ARCHEO NEWS</div>
-    <div id="news" class="card">
-        Loading news...
-    </div>
+    <div id="news" class="card">Loading ArcheoNews...</div>
 
 </div>
 
@@ -107,11 +105,16 @@ async function ask() {
 }
 
 async function loadNews() {
-    const res = await fetch("https://api.allorigins.win/raw?url=https://www.archaeology.org/news");
-    const text = await res.text();
+    try {
+        const res = await fetch("https://api.allorigins.win/raw?url=https://www.archaeology.org/news");
+        const text = await res.text();
 
-    document.getElementById("news").innerText =
-        "Archaeology.org feed loaded.\n\n(Next step: structured ArcheoNews parser)";
+        document.getElementById("news").innerText =
+            "ArcheoNews feed loaded.\n\n(Next: structured timeline + filters)";
+    } catch (e) {
+        document.getElementById("news").innerText =
+            "ArcheoNews temporarily unavailable";
+    }
 }
 
 loadNews();
