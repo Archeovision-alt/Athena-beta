@@ -6,9 +6,7 @@
 <title>ATHENA</title>
 
 <style>
-/* =========================
-   GLOBAL
-========================= */
+
 body{
     margin:0;
     font-family: Arial, Helvetica, sans-serif;
@@ -16,9 +14,7 @@ body{
     color:#111;
 }
 
-/* =========================
-   LAYOUT
-========================= */
+/* CONTAINER */
 .container{
     max-width:700px;
     margin:0 auto;
@@ -26,9 +22,7 @@ body{
     text-align:center;
 }
 
-/* =========================
-   TITLE
-========================= */
+/* TITLE */
 h1{
     font-size:52px;
     font-weight:300;
@@ -36,6 +30,7 @@ h1{
     margin-bottom:10px;
 }
 
+/* SUBTITLE */
 .subtitle{
     font-size:15px;
     color:#777;
@@ -43,9 +38,7 @@ h1{
     letter-spacing:1px;
 }
 
-/* =========================
-   INPUT
-========================= */
+/* INPUT */
 input{
     width:100%;
     padding:18px 20px;
@@ -62,28 +55,7 @@ input:focus{
     box-shadow:0 0 0 3px rgba(92,131,154,0.15);
 }
 
-/* =========================
-   BUTTON
-========================= */
-button{
-    margin-top:15px;
-    padding:12px 28px;
-    background:#5c839a;
-    color:white;
-    border:none;
-    border-radius:8px;
-    cursor:pointer;
-    font-size:14px;
-    transition:0.2s;
-}
-
-button:hover{
-    background:#4f7388;
-}
-
-/* =========================
-   RESPONSE
-========================= */
+/* RESPONSE */
 #response{
     margin-top:50px;
     text-align:left;
@@ -93,15 +65,14 @@ button:hover{
     color:#222;
 }
 
-/* =========================
-   FOOTER
-========================= */
+/* FOOTER */
 .footer{
     margin-top:80px;
     font-size:12px;
     color:#aaa;
     text-align:center;
 }
+
 </style>
 </head>
 
@@ -117,10 +88,6 @@ button:hover{
 
     <input id="input" type="text" placeholder="Ask anything..." />
 
-    <br/>
-
-    <button onclick="ask()">Ask</button>
-
     <div id="response"></div>
 
     <div class="footer">
@@ -130,6 +97,7 @@ button:hover{
 </div>
 
 <script>
+
 async function ask(){
 
     const input = document.getElementById("input");
@@ -138,7 +106,7 @@ async function ask(){
     const message = input.value.trim();
     if(!message) return;
 
-    responseDiv.innerText = "ATHENA is thinking...";
+    responseDiv.innerText = "Thinking...";
 
     try{
         const res = await fetch("/chat", {
@@ -158,12 +126,13 @@ async function ask(){
     }
 }
 
-/* ENTER KEY SUPPORT */
+/* ENTER KEY ONLY */
 document.getElementById("input").addEventListener("keypress", function(e){
     if(e.key === "Enter"){
         ask();
     }
 });
+
 </script>
 
 </body>
