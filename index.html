@@ -1,87 +1,106 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>ATHENA</title>
 
 <style>
-body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background: #ffffff;
-    color: #111;
-    height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+/* =========================
+   GLOBAL
+========================= */
+body{
+    margin:0;
+    font-family: Arial, Helvetica, sans-serif;
+    background:#ffffff;
+    color:#111;
 }
 
-/* CENTER LAYOUT */
-.container {
-    width: 100%;
-    max-width: 700px;
-    text-align: center;
-    padding: 20px;
+/* =========================
+   LAYOUT
+========================= */
+.container{
+    max-width:700px;
+    margin:0 auto;
+    padding-top:120px;
+    text-align:center;
 }
 
-h1 {
-    font-weight: 400;
-    margin-bottom: 5px;
-    letter-spacing: 2px;
+/* =========================
+   TITLE
+========================= */
+h1{
+    font-size:52px;
+    font-weight:300;
+    letter-spacing:10px;
+    margin-bottom:10px;
 }
 
-.sub {
-    color: #666;
-    margin-bottom: 30px;
-    font-size: 14px;
+.subtitle{
+    font-size:15px;
+    color:#777;
+    margin-bottom:60px;
+    letter-spacing:1px;
 }
 
-/* INPUT */
-input {
-    width: 100%;
-    padding: 14px;
-    font-size: 16px;
-    border: 1px solid #ddd;
-    border-radius: 6px;
-    margin-bottom: 12px;
-    outline: none;
+/* =========================
+   INPUT
+========================= */
+input{
+    width:100%;
+    padding:18px 20px;
+    font-size:16px;
+    border:1px solid #ddd;
+    border-radius:10px;
+    outline:none;
+    transition:0.2s;
+    box-sizing:border-box;
 }
 
-input:focus {
-    border-color: #5c839a;
+input:focus{
+    border-color:#5c839a;
+    box-shadow:0 0 0 3px rgba(92,131,154,0.15);
 }
 
-/* BUTTON BLUE */
-button {
-    width: 100%;
-    padding: 14px;
-    border: none;
-    background: #5c839a;
-    color: white;
-    font-size: 14px;
-    letter-spacing: 1px;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: 0.2s ease;
+/* =========================
+   BUTTON
+========================= */
+button{
+    margin-top:15px;
+    padding:12px 28px;
+    background:#5c839a;
+    color:white;
+    border:none;
+    border-radius:8px;
+    cursor:pointer;
+    font-size:14px;
+    transition:0.2s;
 }
 
-button:hover {
-    background: #4f7388;
+button:hover{
+    background:#4f7388;
 }
 
-/* RESPONSE */
-#response {
-    margin-top: 25px;
-    text-align: left;
-    white-space: pre-line;
-    line-height: 1.6;
-    font-size: 14px;
-    color: #222;
+/* =========================
+   RESPONSE
+========================= */
+#response{
+    margin-top:50px;
+    text-align:left;
+    white-space:pre-wrap;
+    line-height:1.7;
+    font-size:16px;
+    color:#222;
 }
 
-/* NEWS */
-#news {
-    display: none; /* invisible pour l'instant comme demandé */
+/* =========================
+   FOOTER
+========================= */
+.footer{
+    margin-top:80px;
+    font-size:12px;
+    color:#aaa;
+    text-align:center;
 }
 </style>
 </head>
@@ -91,34 +110,60 @@ button:hover {
 <div class="container">
 
     <h1>ATHENA</h1>
-    <div class="sub">Archaeological Research Assistant</div>
 
-    <input id="input" placeholder="Ask anything...">
-    <button onclick="ask()">ASK ANYTHING</button>
+    <div class="subtitle">
+        Archaeological Research Assistant
+    </div>
+
+    <input id="input" type="text" placeholder="Ask anything..." />
+
+    <br/>
+
+    <button onclick="ask()">Ask</button>
 
     <div id="response"></div>
 
-    <div id="news"></div>
+    <div class="footer">
+        Powered by OpenAI and Archeo.news
+    </div>
 
 </div>
 
 <script>
+async function ask(){
 
-async function ask() {
-    const message = document.getElementById("input").value;
+    const input = document.getElementById("input");
+    const responseDiv = document.getElementById("response");
 
-    const res = await fetch("/chat", {
-        method: "POST",
-        headers: {"Content-Type": "application/json"},
-        body: JSON.stringify({message})
-    });
+    const message = input.value.trim();
+    if(!message) return;
 
-    const data = await res.json();
+    responseDiv.innerText = "ATHENA is thinking...";
 
-    // REFERENCES INVISIBLES (comme demandé)
-    document.getElementById("response").innerText = data.reply;
+    try{
+        const res = await fetch("/chat", {
+            method:"POST",
+            headers:{
+                "Content-Type":"application/json"
+            },
+            body: JSON.stringify({ message })
+        });
+
+        const data = await res.json();
+
+        responseDiv.innerText = data.reply || "No response";
+
+    } catch(err){
+        responseDiv.innerText = "Error connecting to ATHENA";
+    }
 }
 
+/* ENTER KEY SUPPORT */
+document.getElementById("input").addEventListener("keypress", function(e){
+    if(e.key === "Enter"){
+        ask();
+    }
+});
 </script>
 
 </body>
