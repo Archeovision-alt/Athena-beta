@@ -1,0 +1,293 @@
+/* =====================================================
+   ATHENA Beta 0.2
+   OFFICIAL VISUAL IDENTITY
+   VERSION FIGÉE
+===================================================== */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html{
+
+    scroll-behavior:smooth;
+
+}
+
+body{
+
+    background:#ffffff;
+
+    font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+    color:#1f3650;
+
+    min-height:100vh;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+}
+
+
+/* ============================ */
+
+.container{
+
+    width:90%;
+
+    max-width:900px;
+
+    text-align:center;
+
+}
+
+/* ============================ */
+
+h1{
+
+    font-size:84px;
+
+    font-weight:600;
+
+    letter-spacing:12px;
+
+    color:#18354a;
+
+    margin-bottom:15px;
+
+}
+
+/* ============================ */
+
+.subtitle{
+
+    font-size:24px;
+
+    color:#777;
+
+    margin-bottom:50px;
+
+}
+
+/* ============================ */
+
+textarea{
+
+    width:100%;
+
+    height:190px;
+
+    padding:25px;
+
+    resize:none;
+
+    border:none;
+
+    border-radius:12px;
+
+    background:#ffffff;
+
+    font-size:19px;
+
+    line-height:1.8;
+
+    font-family:Georgia, serif;
+
+    box-shadow:
+
+        0 18px 40px rgba(0,0,0,.08);
+
+    outline:none;
+
+    transition:.25s;
+
+}
+
+textarea:focus{
+
+    box-shadow:
+
+        0 20px 45px rgba(24,53,74,.18);
+
+}
+
+/* ============================ */
+
+textarea::placeholder{
+
+    color:#b5b5b5;
+
+}
+
+/* ============================ */
+
+button{
+
+    width:60px;
+
+    height:60px;
+
+    border-radius:50%;
+
+    border:none;
+
+    background:#2F80ED;
+
+    margin:35px auto;
+
+    display:block;
+
+    cursor:pointer;
+
+    transition:.25s;
+
+    box-shadow:
+
+        0 10px 25px rgba(47,128,237,.35);
+
+}
+
+button:hover{
+
+    transform:scale(1.08);
+
+}
+
+/* ============================ */
+
+button:disabled{
+
+    opacity:.55;
+
+}
+
+/* ============================ */
+
+.thinking{
+
+    color:#777;
+
+    font-style:italic;
+
+    margin-top:10px;
+
+}
+
+/* ============================ */
+
+.answer{
+
+    margin-top:35px;
+
+    background:white;
+
+    border-radius:12px;
+
+    padding:35px;
+
+    text-align:left;
+
+    line-height:1.9;
+
+    font-size:18px;
+
+    box-shadow:
+
+        0 18px 40px rgba(0,0,0,.08);
+
+}
+
+/* ============================ */
+
+.answer h1,
+.answer h2,
+.answer h3{
+
+    color:#18354a;
+
+    margin-bottom:15px;
+
+}
+
+.answer p{
+
+    margin-bottom:18px;
+
+}
+
+.answer ul{
+
+    margin-left:25px;
+
+    margin-bottom:18px;
+
+}
+
+.answer li{
+
+    margin-bottom:10px;
+
+}
+
+/* ============================ */
+
+footer{
+
+    margin-top:55px;
+
+    color:#999;
+
+    font-size:14px;
+
+}
+
+/* ============================ */
+
+.hidden{
+
+    display:none;
+
+}
+
+/* ============================ */
+
+@media(max-width:700px){
+
+h1{
+
+    font-size:54px;
+
+    letter-spacing:6px;
+
+}
+
+.subtitle{
+
+    font-size:18px;
+
+}
+
+textarea{
+
+    height:160px;
+
+}
+
+.answer{
+
+    font-size:17px;
+
+    padding:25px;
+
+}
+
+}
